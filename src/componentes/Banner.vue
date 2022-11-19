@@ -1,0 +1,48 @@
+<template >
+  <section class="src-componentes-banner">
+    <head>
+      <title></title>
+    </head>
+    <div class="header">
+      <h1>
+        The Great <br />
+        <span class="colorDisplay">{{fatherText}}</span>
+        <br />
+        Guessing Game
+      </h1>
+    </div>
+  </section>
+</template>
+
+<script >
+export default {
+  name: "src-componentes-banner",
+  props: ['fatherText'],
+  mounted() {},
+  data() {
+    return {};
+  },
+  methods: {},
+  computed: {},
+};
+</script>
+
+<style scoped lang="css">
+.header {
+  transition: all 0.3s;
+  background: steelblue;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+  color: white;
+}
+.colorDisplay {
+  font-size: 200%;
+}
+
+h1 {
+  font-weight: normal;
+  line-height: 1.1;
+  padding: 20px 0;
+}
+</style>
