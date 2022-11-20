@@ -1,32 +1,24 @@
 <template >
   <section class="src-componentes-square">
-    <div class="square" :style="{'background-color':colorFondo}" @click="checkCorrectColor()" ></div>
+    <div class="square" :style="estilo=estiloEnviado" @click="sendColor()" ></div>
   </section>
 </template>
 
 <script>
 export default {
   name: "src-componentes-square",
-  props: ['colorFondo'],
+  props: ['estiloEnviado'],
   mounted() {},
   data() {
     return {
-      color:this.colorFondo
+      estilo:this.estiloEnviado
     };
   },
   methods: {
-    checkCorrectColor(){
-      this.$emit('color-out',this.color)
+    sendColor(){
+      
+     this.$emit('color-out',this.estilo)
     },
-    getSquareStyle(){
-      return { 
-                'background-color': estado? 'green':'crimson', 
-                color: 'white', 
-                padding: '10px', 
-                borderRadius: '10px' 
-            }
-    },
-    
   },
   computed: {},
 };

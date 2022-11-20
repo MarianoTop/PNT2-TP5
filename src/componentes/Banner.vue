@@ -3,10 +3,10 @@
     <head>
       <title></title>
     </head>
-    <div class="header">
+    <div :style="{'background-color': gameWon? fatherText:steelblue}" class="header">
       <h1>
         The Great <br />
-        <span class="colorDisplay">{{fatherText}}</span>
+        <span class="colorDisplay"  >{{fatherText}}</span>
         <br />
         Guessing Game
       </h1>
@@ -17,7 +17,8 @@
 <script >
 export default {
   name: "src-componentes-banner",
-  props: ['fatherText'],
+  props: ['fatherText', 'gameWon'
+  ],
   mounted() {},
   data() {
     return {};

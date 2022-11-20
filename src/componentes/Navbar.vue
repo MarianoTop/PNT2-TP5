@@ -2,17 +2,17 @@
   <section class="src-componentes-navbar">
     <!-- ¿Sera correcto usar body?? -->
 
-    <Banner :father-text="bannerText" />
+    <Banner :father-text="bannerText" :game-won="isGameWon" />
     <div class="navigator">
-      <button id="reset">New colors</button>
-      <span class="message"> </span>
+      <button @click="restart()" id="reset">{{restarMessage}}</button>
+      <span class="message">{{ messageDisplay }} </span>
 
-      <button @click="easy()" id="easy">easy</button>
-      <button @click="hard()" id="hard" class="selected">hard</button>
+      <button @click="easy()" id="easy" v-bind:class="{ selected: !isHard }">easy</button>
+      <button @click="hard()" id="hard" v-bind:class="{ selected: isHard }">hard</button>
     </div>
 
-    <div class="container" v-for="(x, index) in colors" :key="index">
-      <Square :color-fondo="x" />
+    <div class="container" v-for="(x, index) in squaresStyles" :key="index">
+      <Square :estilo-enviado="x" @color-out="compareColor" />
     </div>
   </section>
 </template>
@@ -28,7 +28,7 @@ export default {
     Banner,
   },
   mounted() {
-    this.restart()
+    this.restart();
   },
   data() {
     return {
@@ -38,12 +38,15 @@ export default {
       squaresStyles: [],
       pickedColor: null, //"ColorCorrecto"
       bannerText: null,
+      messageDisplay: null,
+      restarMessage:null,
+      isGameWon:false,
     };
   },
   methods: {
     createNewColors(numbers) {
       let arr = [];
-      for (var i = 0; i < numbers; i++) {
+      for (let i = 0; i < numbers; i++) {
         arr.push(this.createRandomStringColor());
       }
       return arr;
@@ -59,7 +62,7 @@ export default {
     },
 
     createRandomStringColor() {
-      var newColor =
+      let newColor =
         "rgb(" +
         this.randomInt() +
         ", " +
@@ -90,22 +93,42 @@ export default {
     restart() {
       this.colors = this.createNewColors(this.colorCount);
       this.pickedColor = this.colors[this.PickColor()];
-      this.bannerText=this.pickedColor
+      this.bannerText = this.pickedColor;
       //colorDisplay.textContent = pickedColor;
       //this.textContent = "Pick New Colors!";
-     // header.style.backgroundColor = "steelblue";
-     // messageDisplay.textContent = "";
-     // restartButton.textContent = "New Colors!";
-      for (let i = 0; i < colors.length; i++) {
-        squaresStyles[i]=getSquareStyle(colors[i]);
+      // header.style.backgroundColor = "steelblue";
+      this.messageDisplay = "";
+      this.restarMessage = "New Colors!";
+      this.squaresStyles = [];
+      this.isGameWon=false;
+      for (let i = 0; i < this.colors.length; i++) {
+        this.squaresStyles[i] = this.getSquareStyle(this.colors[i]);
       }
     },
-    getSquareStyle(color){
-      return { 
-                'background-color': color,                
-            }
-    }
-    
+    getSquareStyle(color) {
+      return {
+        "background-color": color,
+      };
+    },
+    compareColor(color) {
+      if (this.pickedColor == color["background-color"]) {
+        this.messageDisplay = "You Picked Right!";
+        this.setAllColorsTo(this.pickedColor);
+        this.isGameWon=true;
+        this.restarMessage="Play Again!";
+      } else {
+        this.messageDisplay = "Try Again!";
+        let index = this.squaresStyles.findIndex(
+          (x) => x["background-color"] == color[["background-color"]]
+        );
+        this.squaresStyles[index]["background-color"] = "#232323";
+      }
+    },
+    setAllColorsTo(color) {
+      this.squaresStyles.forEach(function (square) {
+        square["background-color"] = color ;
+      });
+    },
   },
   computed: {},
 };
@@ -143,7 +166,7 @@ button:hover {
 }
 
 .message {
-  color: #ffffff;
+  color: #000000;
   display: inline-block;
   width: 20%;
 }
