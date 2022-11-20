@@ -3,7 +3,7 @@
     <head>
       <title></title>
     </head>
-    <div :style="{'background-color': gameWon? fatherText:steelblue}" class="header">
+    <div :style="{'background-color': gameWon? fatherText:'steelblue'}" class="header">
       <h1>
         The Great <br />
         <span class="colorDisplay"  >{{fatherText}}</span>
